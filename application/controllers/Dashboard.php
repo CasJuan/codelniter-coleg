@@ -6,10 +6,7 @@ class Dashboard extends CI_Controller{
 
 
     public function index(){
-        $this->load->view('includes/header');
-        $this->load->view('includes/sidebar');
-        $this->load->view('home');
-        $this->load->view('includes/footer');
+        $this->loadViews('home');
     }
 
 
@@ -26,15 +23,47 @@ class Dashboard extends CI_Controller{
     
                 );
 
+                //GUARDAR TIPO USUARIO
+                if(isset($login[0] -> is_profesor)){
+                    $array['tipo'] = 'profesor';
+                } else if (isset($login[0] -> is_alumno)){
+                    $array['tipo'] = 'alumnos';
+                }
+
+
                 $this->session->userdata($array);
 
-                print_r($_SESSION);
-
             }
-
-
         }
         $this->load->view('login');
     }
+
+
+    function loadViews ($view, $data=null) {
+        //si tengo sesion creada
+        if($_SESSION['username']){
+
+            //si la vista es login me redirige a la home
+            if($view =="login"){
+                redirect(base_url()."Dashboar","location")
+            }
+            //si es una vista cualquiera carga la inforacion
+            $this->load->view('includes/header');
+            $this->load->view('includes/sidebar');
+            $this->load->view('home');
+            $this->load->view('includes/footer');
+        }else {
+            //si la vista es login se carga
+            if($view =="login"){
+                $this->load->view($view);
+            }else{
+                redirect(base_url()."Dashboar/login","location")
+            }
+        }
+    }
+
+
+
+
 
 }
