@@ -16,7 +16,23 @@ class Dashboard extends CI_Controller{
     public function login(){
         if($_POST['username'] && $_POST['password']){
             $login = $this->Site_model->loginUser($_POST);
-            print_r($login);
+            if($login){
+                $array= array(
+                    "id" => $login[0] ->  id,
+                    "nombre" => $login[0] ->  nombre,
+                    "apellido" => $login[0] ->  apellido,
+                    "username" => $login[0] ->  username,
+                    "curso" => $login[0] -> curso  ,
+    
+                );
+
+                $this->session->userdata($array);
+
+                print_r($_SESSION);
+
+            }
+
+
         }
         $this->load->view('login');
     }
