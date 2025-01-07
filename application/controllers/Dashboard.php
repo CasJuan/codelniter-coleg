@@ -13,8 +13,12 @@ class Dashboard extends CI_Controller{
     }
 
 
-    public function hola(){
-        $this->Site_modal-> updateProfesor();
+    public function login(){
+        if($_POST['username'] && $_POST['password']){
+            $login = $this->Site_model->loginUser($_POST);
+            print_r($login);
+        }
+        $this->load->view('login');
     }
 
 }
